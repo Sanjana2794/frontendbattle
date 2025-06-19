@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Frontend Battle - Animated Modern UI</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #f4f4f9;
+      --text: #1c1c1c;
+      --accent: #7c3aed;
+      --card-bg: #ffffff;
+      --feature-bg: #eef2ff;
+    }
+    body.dark-mode {
+      --bg: #141625;
+      --text: #e5e5e5;
+      --card-bg: #1e1f2f;
+      --feature-bg: #2b2e4a;
+    }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      transition: background 0.4s ease, color 0.4s ease;
+      line-height: 1.6;
+      overflow-x: hidden;
+      padding-top: 60px;
+    }
+    #loader {
+      position: fixed;
+      inset: 0;
+      background: var(--bg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 2000;
+    }
+    #loader::after {
+      content: '';
+      width: 50px;
+      height: 50px;
+      border: 6px solid var(--accent);
+      border-top-color: transparent;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    header {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background: var(--card-bg);
+      box-shadow: 0 3px 8px rgba(0,0,0,0.08);
+      padding: 1em 2em;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 1000;
+      animation: slideDown 0.6s ease-in-out;
+    }
+    header nav a {
+      margin: 0 1em;
+      color: var(--text);
+      text-decoration: none;
+      font-weight: 600;
+      position: relative;
+    }
+    header nav a::after {
+      content: '';
+      position: absolute;
+      width: 0%;
+      height: 2px;
+      background: var(--accent);
+      left: 0;
+      bottom: -4px;
+      transition: width 0.3s ease-in-out;
+    }
+    header nav a:hover::after {
+      width: 100%;
+    }
+    #theme-toggle {
+      background: var(--accent);
+      color: white;
+      border: none;
+      padding: 0.5em 1em;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background 0.3s ease-in-out;
+    }
+    #theme-toggle:hover {
+      background: #5b21b6;
+    }
+    section {
+      padding: 100px 20px 60px;
+      max-width: 1100px;
+      margin: auto;
+    }
+    .hero {
+      text-align: center;
+      animation: fadeIn 1s ease-in;
+      position: relative;
+    }
+    .hero h1 {
+      font-size: 3.5rem;
+      margin-bottom: 0.5em;
+      background: linear-gradient(90deg, var(--accent), #9333ea);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .btn {
+      background: var(--accent);
+      color: white;
+      border: none;
+      padding: 0.8em 1.6em;
+      font-size: 1.1rem;
+      border-radius: 30px;
+      cursor: pointer;
+      overflow: hidden;
+      position: relative;
+    }
+    .btn span.ripple {
+      position: absolute;
+      border-radius: 50%;
+      transform: scale(0);
+      animation: ripple 0.6s linear;
+      background: rgba(255, 255, 255, 0.6);
+    }
+    @keyframes ripple {
+      to {
+        transform: scale(4);
+        opacity: 0;
+      }
+    }
+    .parallax {
+      background: url('https://picsum.photos/id/1018/1000/400') center / cover fixed;
+      height: 300px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 2rem;
+      font-weight: bold;
+    }
+    .features {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 30px;
+      margin-top: 3em;
+    }
+    .card {
+      background: var(--feature-bg);
+      padding: 2em;
+      border-radius: 18px;
+      box-shadow: 0 12px 24px rgba(0,0,0,0.05);
+      text-align: center;
+      transition: transform 0.4s ease, box-shadow 0.4s ease;
+      animation: floatIn 1s ease-in-out;
+    }
+    .card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 16px 30px rgba(0,0,0,0.1);
+    }
+    .extra-features {
+      margin-top: 4em;
+      animation: fadeInUp 1s ease-in-out;
+    }
+    .extra-features h3 {
+      font-size: 2rem;
+      margin-bottom: 1em;
+    }
+    .extra-features ul {
+      list-style: none;
+      padding-left: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 1em;
+    }
+    .extra-features li {
+      background: var(--feature-bg);
+      padding: 1.2em;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+      transition: transform 0.3s ease;
+    }
+    .extra-features li:hover {
+      transform: scale(1.02);
+    }
+    footer {
+      text-align: center;
+      padding: 2em 1em;
+      color: #888;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes slideDown {
+      from { transform: translateY(-50px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(50px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes floatIn {
+      0% { opacity: 0; transform: scale(0.9); }
+      100% { opacity: 1; transform: scale(1); }
+    }
+  </style>
+</head>
+<body>
+  <div id="loader"></div>
+  <header>
+    <nav>
+      <a href="#home">Home</a>
+      <a href="#features">Features</a>
+      <a href="#extras">Extras</a>
+    </nav>
+    <button id="theme-toggle">Toggle</button>
+  </header>
+
+  <section class="hero" id="home">
+    <h1>Frontend Battle ⚔️</h1>
+    <p>A modern, animated UI to impress every judge and user.</p>
+    <button class="btn" onclick="createRipple(event, this)">Explore Now</button>
+  </section>
+
+  <div class="parallax">Parallax Showcase ✨</div>
+
+  <section id="features">
+    <h2 style="text-align:center; animation: fadeIn 1s ease-in-out;">Core Features</h2>
+    <div class="features">
+      <div class="card">⚡ Blazing Fast Load</div>
+      <div class="card">🎨 Stunning UI Design</div>
+      <div class="card">🌗 Dark/Light Mode</div>
+      <div class="card">📱 Mobile Responsive</div>
+    </div>
+  </section>
+
+  <section class="extra-features" id="extras">
+    <h3>✨ Bonus Enhancements</h3>
+    <ul>
+      <li>🎬 Scroll-triggered animations</li>
+      <li>🧠 Color contrast for accessibility</li>
+      <li>🚀 Netlify/Vercel deploy ready</li>
+      <li>📱 Touch-optimized UI</li>
+      <li>🔮 Smooth transitions everywhere</li>
+    </ul>
+  </section>
+
+  <footer>
+    <p>Made with ❤️ for the Frontend Battle 2.0</p>
+  </footer>
+
+  <script>
+    window.addEventListener('load', () => {
+      document.getElementById('loader').style.display = 'none';
+    });
+
+    document.getElementById('theme-toggle').onclick = () => {
+      document.body.classList.toggle('dark-mode');
+    };
+
+    function createRipple(event, button) {
+      const circle = document.createElement("span");
+      const diameter = Math.max(button.clientWidth, button.clientHeight);
+      const radius = diameter / 2;
+      circle.style.width = circle.style.height = `${diameter}px`;
+      circle.style.left = `${event.clientX - button.offsetLeft - radius}px`;
+      circle.style.top = `${event.clientY - button.offsetTop - radius}px`;
+      circle.classList.add("ripple");
+
+      const ripple = button.getElementsByClassName("ripple")[0];
+
+      if (ripple) {
+        ripple.remove();
+      }
+
+      button.appendChild(circle);
+    }
+  </script>
+</body>
+</html>
